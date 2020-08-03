@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
+# Source: https://github.com/hndcrftd/wsl2ip2hosts
+# Copyright: 2020 hndcrftd
+# Licensed under MIT (https://github.com/hndcrftd/wsl2ip2hosts/blob/master/LICENSE)
+
 # Add hostip as a command in case we want to see our Windows IP in WSL
 alias hostip='tail -1 /etc/resolv.conf | cut -d" " -f2' 2>/dev/null
 
 # set this to 1 to add Windows IP to linux /etc/hosts or 0 to skip this
 addwiniptohosts=1
 
-if [ $starthttpd -eq 1 ]
+if [[ $addwiniptohosts -eq 1 ]]
 then
 	# Replace old Windows IP with the current one in our local /etc/hosts
 	HOSTIP=$(hostip)
@@ -30,11 +34,11 @@ WSLIP=$(wslip)
 # wslpath command converts from Windows path to a WSL path. We want this in case the drive letter for boot drive is not C:
 grep $WSLIP $(wslpath '/Windows')/System32/drivers/etc/hosts
 # if it's in there grep returns 0, if not it's 1
-if [ $? -eq 1 ]
+if [[ $? -eq 1 ]]
 then
 	# if we have the new PowerShellCore - use it, it's faster, if not - fallback on the old one
 	which pwsh.exe > /dev/null 2>&1 && PS="pwsh" || PS="powershell"
-	$PS.exe -Command 'start-process -verb runas '$PS' -ArgumentList "-Command &{~\wsl2hosts.ps1 '$WSLIP'}"'
+	$PS.exe -Command 'start-process -verb runas '$PS' -ArgumentList "-Command &{~\wsl2ip2winhosts.ps1 '$WSLIP'}"'
 fi
 
 # set this to 1 to start httpd on WSL start or 0 to skip
@@ -44,5 +48,5 @@ if [ ! -d "/run/httpd" ]
 then
     mkdir /run/httpd
     chmod 777 /run/httpd # beccause httpd can run as different user on different distros
-    if [ $starthttpd -eq 1 ]; then httpd -k start; fi;
+    if [[ $starthttpd -eq 1 ]]; then httpd -k start; fi;
 fi

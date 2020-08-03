@@ -1,3 +1,7 @@
+# Source: https://github.com/hndcrftd/wsl2ip2hosts
+# Copyright: 2020 hndcrftd
+# Licensed under MIT (https://github.com/hndcrftd/wsl2ip2hosts/blob/master/LICENSE)
+
 #Requires -RunAsAdministrator
 param([string]$HostAddr)
 if ($HostAddr -eq $null) { Write-Host "No host address provided"; exit }
