@@ -8,6 +8,8 @@ Optionally it updates its own /etc/hosts with the Windows IP.
 
 Optionally it starts httpd (and creates /run/httpd which gets cleared on every shutdown) so you can get right to development without having to start services manually.
 
+And it does all that with a couple of simple bash and powershell commands.
+
 ### TL;DR:
 
 To install the scripts automatically, run the following command in your selected WSL Linux distribution bash:
@@ -31,6 +33,8 @@ After you run the installation you can create a convenient shortcut to start WSL
 >In the target field paste the following: `bash /etc/profile.d/ip2hosts.sh`  
 >Click *Next* and name your shortcut.
 Windows will expand _bash_ to include the full path automatically, so it will become C:\Windows\System32\bash.exe, or you can explicitly type that in
+
+As an option you can even set the above command to run on Windows boot, in case most of your work depends on WSL2.
 
 I also have a shortcut that performs `wsl --shutdown`, however, in my experience, I can leave it running indefinitely and it resumes perfectly fine if I put Windows to Sleep.  
 The shutdown is for cases when you are rebooting or turning the computer off.
