@@ -4,10 +4,9 @@
 # Copyright: 2020 hndcrftd
 # Licensed under MIT (https://github.com/hndcrftd/wsl2ip2hosts/blob/master/LICENSE)
 
-if [[ $UID != 0 ]]
-then
-	echo "To create executable scripts on your system the installation script needs sudo permissions"
-	sudo echo "Thank you"
+if [[ $EUID != 0 ]]; then
+    sudo "$0" "$@"
+    exit $?
 fi
 
 ips2hosts=$(curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/ips2hosts.sh)
@@ -34,8 +33,8 @@ then
 	ips2hosts=${ips2hosts/starthttpd=1/starthttpd=0}
 fi
 
-sudo echo "$ips2hosts" > /etc/profile.d/ips2hosts.sh
-sudo chmod +x /etc/profile.d/ips2hosts.sh
+echo "$ips2hosts" > /etc/profile.d/ips2hosts.sh
+chmod +x /etc/profile.d/ips2hosts.sh
 
 echo
 echo "For your WSL enter a hostname or multiple, separated by space"
@@ -48,20 +47,16 @@ echo
 
 wsl2ip2winhosts=${wsl2ip2winhosts/wslfqdn.local/$wslhost}
 
-sudo echo "$wsl2ip2winhosts" > ~/wsl2ip2winhosts.ps1
-sudo chmod +x ~/wsl2ip2winhosts.ps1
+echo "$wsl2ip2winhosts" > ~/wsl2ip2winhosts.ps1
+chmod +x ~/wsl2ip2winhosts.ps1
 
 echo "Populating IPs, this will take a few seconds..."
 bash /etc/profile.d/ips2hosts.sh > /dev/null 2>&1
 if [[ $? -eq 0 ]]
 then
 	echo "Installation completed. The following entries are now in effect:"
-
-	if [[ ! -z $windowshost ]]; then
-		hostip > /dev/null 2>&1 && echo "$(hostip) $windowshost"
-	fi
-
-	wslip > /dev/null 2>&1 && echo "$(wslip) $wslhost"
+	echo "$(tail -1 /etc/resolv.conf | cut -d' ' -f2) $windowshost"
+	echo "$(ip -4 a show eth0 | grep -Po --color=never 'inet \K[0-9.]*') $wslhost"
 else
 	echo "Installation completed. Shutdown and restart your distribution to populate hosts file."
 fi
