@@ -28,10 +28,11 @@ You will have two new commands (aliases) in your bash for convenience:
 ---
 Feel free to modify the scripts to fit your needs.
 
-After you run the installation you can create a convenient shortcut to start WSL default distro in the background and populate the *hosts* files without having to open a new command window:  
+After you run the installation you can create a convenient shortcut to start WSL default distro in the background and populate the *hosts* files without having to open a new command window if you don't need it:  
 >Right-click on your Desktop (or within any folder empty area) and select *New > Shortcut*  
 >In the target field paste the following: `bash /etc/profile.d/ip2hosts.sh`  
->Click *Next* and name your shortcut.
+>Click *Next* and name your shortcut.  
+
 Windows will expand _bash_ to include the full path automatically, so it will become C:\Windows\System32\bash.exe, or you can explicitly type that in
 
 As an option you can even set the above command to run on Windows boot, in case most of your work depends on WSL2.
