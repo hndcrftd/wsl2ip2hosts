@@ -46,7 +46,8 @@ wsl2ip2winhosts=${wsl2ip2winhosts/wslfqdn.local/$wslhost}
 echo "$wsl2ip2winhosts" > ~/wsl2ip2winhosts.ps1
 chmod +x ~/wsl2ip2winhosts.ps1
 
-bash -c /etc/profile.d/ips2hosts.sh > /dev/null 2>&1
+echo "Populating IPs, this will take a few seconds..."
+bash /etc/profile.d/ips2hosts.sh > /dev/null 2>&1
 if [[ $? -eq 0 ]]
 then
 	echo "Installation completed. The following entries are now in effect:"
