@@ -4,6 +4,12 @@
 # Copyright: 2020 hndcrftd
 # Licensed under MIT (https://github.com/hndcrftd/wsl2ip2hosts/blob/master/LICENSE)
 
+if [[ $UID != 0 ]]
+then
+	echo "To create executable scripts on your system the installation script needs sudo permissions"
+	sudo echo "Thank you"
+fi
+
 ips2hosts=$(curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/ips2hosts.sh)
 wsl2ip2winhosts=$(curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/wsl2ip2winhosts.ps1)
 
@@ -28,9 +34,8 @@ then
 	ips2hosts=${ips2hosts/starthttpd=1/starthttpd=0}
 fi
 
-# [[ -d ./etc/profile.d/ ]] || mkdir -p ./etc/profile.d/
-echo "$ips2hosts" > /etc/profile.d/ips2hosts.sh
-chmod +x /etc/profile.d/ips2hosts.sh
+sudo echo "$ips2hosts" > /etc/profile.d/ips2hosts.sh
+sudo chmod +x /etc/profile.d/ips2hosts.sh
 
 echo
 echo "For your WSL enter a hostname or multiple, separated by space"
@@ -43,8 +48,8 @@ echo
 
 wsl2ip2winhosts=${wsl2ip2winhosts/wslfqdn.local/$wslhost}
 
-echo "$wsl2ip2winhosts" > ~/wsl2ip2winhosts.ps1
-chmod +x ~/wsl2ip2winhosts.ps1
+sudo echo "$wsl2ip2winhosts" > ~/wsl2ip2winhosts.ps1
+sudo chmod +x ~/wsl2ip2winhosts.ps1
 
 echo "Populating IPs, this will take a few seconds..."
 bash /etc/profile.d/ips2hosts.sh > /dev/null 2>&1
