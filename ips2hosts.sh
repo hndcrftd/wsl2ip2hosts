@@ -16,7 +16,7 @@ then
 	HOSTIP=$(tail -1 /etc/resolv.conf | cut -d" " -f2)
 	# The following is what you name your Windows machine
 	HOSTDOMAIN="windowshost.local"
-	if grep $HOSTDOMAIN /etc/hosts
+	if grep $HOSTDOMAIN /etc/hosts > /dev/null 2>&1
 	then
 		# if the domain name is in /etc/hosts - replace it
 		sed -i "/$HOSTDOMAIN/ s/.*/$HOSTIP\t$HOSTDOMAIN/" /etc/hosts
@@ -27,12 +27,14 @@ then
 fi
 
 # IP for this WSL2 instance to be included in Windows hosts file
-alias wslip='ip -4 a show eth0 | grep -Po "inet \K[0-9.]*"' 2>/dev/null
+alias wslip='ip -4 a show eth0 | grep -Po --color=never "inet \K[0-9.]*"' 2>/dev/null
 WSLIP=$(ip -4 a show eth0 | grep -Po "inet \K[0-9.]*")
 
 # check if our current IP is already in the windows hosts file (we can read it but not write to it)
 # wslpath command converts from Windows path to a WSL path. We want this in case the drive letter for boot drive is not C:
-grep $WSLIP $(wslpath /Windows)/System32/drivers/etc/hosts
+windir=$(wslpath $(cmd.exe /c echo %WINDIR% 2> nul))
+winhostsfile=${windir%$'\r'}/System32/drivers/etc/hosts
+grep $WSLIP $winhostsfile > /dev/null 2>&1
 # if it's in there grep returns 0, if not it's 1
 if [[ $? -eq 1 ]]
 then
@@ -44,7 +46,7 @@ fi
 
 # set this to 1 to start httpd on WSL start or 0 to skip
 starthttpd=1
-if [[ $starthttpd -eq 1 ]]
+if [[ $starthttpd -eq 1 ]] && which httpd > /dev/null 2>&1
 then
 	# create /run/httpd folder to allow httpd to start
 	if [ ! -d "/run/httpd" ]
