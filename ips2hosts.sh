@@ -4,6 +4,12 @@
 # Copyright: 2020 hndcrftd
 # Licensed under MIT (https://github.com/hndcrftd/wsl2ip2hosts/blob/master/LICENSE)
 
+if [[ $EUID != 0 ]]
+then
+	sudo "$0" "$@"
+	exit $?
+fi
+
 # Add hostip as a command in case we want to see our Windows IP in WSL
 alias hostip='tail -1 /etc/resolv.conf | cut -d" " -f2' 2>/dev/null
 
