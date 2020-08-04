@@ -14,11 +14,10 @@ And it does all that with a couple of simple bash and powershell commands.
 
 To install the scripts automatically, run the following commands in your selected WSL Linux distribution bash:
 
-`cd ~  
-curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/install.sh > wsl2ip2hosts.install.sh  
-chmod +x wsl2ip2hosts.install.sh  
-sudo ./wsl2ip2hosts.install.sh  
-`
+`cd ~`  
+`curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/install.sh > wsl2ip2hosts.install.sh`  
+`chmod +x wsl2ip2hosts.install.sh`  
+`sudo ./wsl2ip2hosts.install.sh`  
 
 The script will walk you through the installation, i.e. setting up optional actions and selecting which hostnames you want to assign to WSL and Windows.  
 At the end of installation the scripts will be ran and you can see the changes in your hosts files immediately.  
