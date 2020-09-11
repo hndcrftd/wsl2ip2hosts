@@ -10,15 +10,15 @@ Optionally it starts httpd (and creates /run/httpd which gets cleared on every s
 
 The install script places the batch files on your system and asks you for hostnames, as well as other configuration details.
 
-**Note: This was initially made for Centos where you login as root and I am in the process of making it run under Ubuntu (or other distros in the future, if you report issues), where you don't login as root and need to run the script as sudo**
+**Note: This was initially made for Centos where you login as root and I made adjustments so it would also run under Ubuntu where you don't login as root and need to run the script as sudo. Please try it in your distro and report issues if any.**
 
 ### TL;DR:
 
 To install the scripts automatically, copy and run the following commands in your selected WSL Linux distribution bash:
-```bash
-cd ~;\  
-curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/install.sh > wsl2ip2hosts.install.sh;\  
-chmod +x wsl2ip2hosts.install.sh;\  
+```
+cd ~;\
+curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/install.sh > wsl2ip2hosts.install.sh;\
+chmod +x wsl2ip2hosts.install.sh;\
 sudo ./wsl2ip2hosts.install.sh
 ```
 Yes, you can copy and paste the whole block at once.  
