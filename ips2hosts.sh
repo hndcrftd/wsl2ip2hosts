@@ -22,7 +22,7 @@ then
 		sed -i "/$HOSTDOMAIN/ s/.*/$HOSTIP\t$HOSTDOMAIN/" /etc/hosts
 	else
 		# if not - add it
-		echo "$HOSTIP\t$HOSTDOMAIN" >> /etc/hosts
+		printf "$HOSTIP\t$HOSTDOMAIN\n" >> /etc/hosts
 	fi
 fi
 
