@@ -33,8 +33,16 @@ then
 	ips2hosts=${ips2hosts/starthttpd=1/starthttpd=0}
 fi
 
-echo "$ips2hosts" > /etc/profile.d/ips2hosts.sh
-chmod +x /etc/profile.d/ips2hosts.sh
+homefolderscript="$(echo ~)/ips2hosts.sh"
+echo "$ips2hosts" > "$homefolderscript"
+chmod +x "$homefolderscript"
+echo "sudo $homefolderscript" > /etc/profile.d/runips2hosts.sh
+chmod +x /etc/profile.d/runips2hosts.sh
+#add sudo permissions for script ~/ips2hosts.sh to /etc/sudoers.d folder in a file ips2hosts
+printf "ALL\tALL=(root) NOPASSWD: $homefolderscript\n" > /etc/sudoers.d/ips2hosts
+chown root:root /etc/sudoers.d/ips2hosts
+chmod 0440 /etc/sudoers.d/ips2hosts
+grep '#includedir /etc/sudoers.d' /etc/sudoers > /dev/null 2>&1 || sudo sh -c "echo \"#includedir /etc/sudoers.d\" >> /etc/sudoers"
 
 echo
 echo "For your WSL enter a hostname or multiple, separated by space"
@@ -48,10 +56,10 @@ echo
 wsl2ip2winhosts=${wsl2ip2winhosts/wslfqdn.local/$wslhost}
 
 echo "$wsl2ip2winhosts" > ~/wsl2ip2winhosts.ps1
-chmod +x ~/wsl2ip2winhosts.ps1
+chmod 0777 ~/wsl2ip2winhosts.ps1
 
 echo "Populating IPs, this will take a few seconds..."
-bash /etc/profile.d/ips2hosts.sh > /dev/null 2>&1
+sudo ~/ips2hosts.sh > /dev/null 2>&1
 if [[ $? -eq 0 ]]
 then
 	echo "Installation completed. The following entries are now in effect:"
