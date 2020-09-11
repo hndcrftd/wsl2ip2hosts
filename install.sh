@@ -35,7 +35,7 @@ fi
 
 homefolderscript="$(echo ~)/ips2hosts.sh"
 echo "$ips2hosts" > "$homefolderscript"
-chmod +x "$homefolderscript"
+chmod 0777 "$homefolderscript"
 echo "sudo $homefolderscript" > /etc/profile.d/runips2hosts.sh
 chmod +x /etc/profile.d/runips2hosts.sh
 #add sudo permissions for script ~/ips2hosts.sh to /etc/sudoers.d folder in a file ips2hosts
