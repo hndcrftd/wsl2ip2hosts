@@ -40,13 +40,13 @@ if [[ $? -eq 1 ]]
 then
 	HOMEFOLDER=$(wslpath -w ~)
 	# if we have the new PowerShellCore - use it, it's faster, if not - fallback to the old one
-	which pwsh.exe > /dev/null 2>&1 && PS="pwsh" || PS="powershell"
+	type pwsh.exe > /dev/null 2>&1 && PS="pwsh" || PS="powershell"
 	$PS.exe -Command 'start-process -verb runas '$PS' -ArgumentList "-Command &{'$HOMEFOLDER'\wsl2ip2winhosts.ps1 '$WSLIP'}"'
 fi
 
 # set this to 1 to start httpd on WSL start or 0 to skip
 starthttpd=1
-if [[ $starthttpd -eq 1 ]] && which httpd > /dev/null 2>&1
+if [[ $starthttpd -eq 1 ]] && type httpd > /dev/null 2>&1
 then
 	# create /run/httpd folder to allow httpd to start
 	if [ ! -d "/run/httpd" ]
