@@ -6,7 +6,7 @@ WSL2 assigns different IPs to itself and the Windows host system every time it (
 
 Optionally it updates its own /etc/hosts with the Windows IP.
 
-Optionally it starts httpd (and creates /run/httpd which gets cleared on every shutdown) so you can get right to development without having to start services manually. (I needed this for WSL2 Centos7 box, you may not need it, or you may want to execute different services, feel free to modify for your needs)
+Optionally it starts httpd (and creates /run/httpd which gets cleared on every shutdown) so you can get right to development without having to start services manually. (I needed this for WSL2 Centos7 box. You may not need it, or you may want to execute different services, like apache2, so feel free to modify that script for your needs after installation.)
 
 The install script places the batch files on your system and asks you for hostnames, as well as other configuration details.
 
@@ -14,13 +14,14 @@ The install script places the batch files on your system and asks you for hostna
 
 ### TL;DR:
 
-To install the scripts automatically, run the following commands in your selected WSL Linux distribution bash:
-
-`cd ~`  
-`curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/install.sh > wsl2ip2hosts.install.sh`  
-`chmod +x wsl2ip2hosts.install.sh`  
-`sudo ./wsl2ip2hosts.install.sh`  
-
+To install the scripts automatically, copy and run the following commands in your selected WSL Linux distribution bash:
+```bash
+cd ~;\  
+curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/install.sh > wsl2ip2hosts.install.sh;\  
+chmod +x wsl2ip2hosts.install.sh;\  
+sudo ./wsl2ip2hosts.install.sh
+```
+Yes, you can copy and paste the whole block at once.  
 The script will walk you through the installation, i.e. setting up optional actions and selecting which hostnames you want to assign to WSL and Windows.  
 You can (and should) look at the content of the install.sh script either on github or after curl request. It grabs the bash and powershell files from github and replaces the hostnames and conditional variables with what you set during the prompts.  
 At the end of installation the scripts will be attempted to run and you may see the changes in your hosts files immediately.  
