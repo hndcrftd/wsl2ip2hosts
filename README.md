@@ -27,7 +27,7 @@ If you are not logged in as root (as in Ubuntu, or other scenarios) you will nee
 Once installed, the settings persist and to change them you can either re-run the install script or edit the generated scripts manually.  
 As of this time you **cannot** have separate settings per distro as distros reuse the same WSL IP so make sure same services in different distros don't listen on same ports. This only affects people who run two or more distros concurrently. Perhaps in the future Microsoft can fix that.
 
-**Note: At the moment this works if your user's home folder does not contain spaces. While I'm researching workarounds, if your home folder does contain spaces you can move the wsl2ip2winhosts.ps1 script from your home folder some place else and edit line 44 in ips2hosts.sh to indicate the full path of the script in place of $HOME variable. If you have any suggestions, let me know.**
+**Note: This has been tested on Centos7 and Ubuntu 18.04 WSL2 images that are available at this time. If running into problems - feel free to open issues but provide as much info as possible about your distro and the nature of the issue. Thank you.**
 
 You will have two new commands (aliases) in your distro bash for convenience:  
 - `wslip` - shows your WSL current IP address  
