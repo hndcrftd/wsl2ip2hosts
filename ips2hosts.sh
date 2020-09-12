@@ -30,17 +30,18 @@ fi
 alias wslip='ip -4 a show eth0 | grep -Po --color=never "inet \K[0-9.]*"' 2>/dev/null
 WSLIP=$(ip -4 a show eth0 | grep -Po "inet \K[0-9.]*")
 
+# if we have the new PowerShellCore - use it, it's faster, if not - fallback to the old one
+type pwsh.exe > /dev/null 2>&1 && PS="pwsh" || PS="powershell"
+
 # check if our current IP is already in the windows hosts file (we can read it but not write to it)
 # wslpath command converts from Windows path to a WSL path. We want this in case the drive letter for boot drive is not C:
-windir=$(wslpath $(cmd.exe /c echo %WINDIR%))
-winhostsfile=${windir%$'\r'}/System32/drivers/etc/hosts
+windir=$(wslpath "$($PS.exe -Command 'echo $env:WINDIR')")
+windir=${windir%$'\r'}
+winhostsfile=$windir/System32/drivers/etc/hosts
 grep $WSLIP $winhostsfile > /dev/null 2>&1
 # if it's in there grep returns 0, if not it's 1
 if [[ $? -eq 1 ]]
 then
-	HOMEFOLDER=$(wslpath -w ~)
-	# if we have the new PowerShellCore - use it, it's faster, if not - fallback to the old one
-	type pwsh.exe > /dev/null 2>&1 && PS="pwsh" || PS="powershell"
 	$PS.exe -Command 'start-process -verb runas '$PS' -ArgumentList "-Command &{~\wsl2ip2winhosts.ps1 '$WSLIP'}"'
 fi
 
