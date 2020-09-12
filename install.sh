@@ -56,7 +56,7 @@ echo
 wsl2ip2winhosts=${wsl2ip2winhosts/wslfqdn.local/$wslhost}
 
 #The complexity below is to account for cases where user's home folder has spaces
-winuserdir=$(wslpath "$(cmd.exe /c echo %USERPROFILE%)")
+winuserdir=$(wslpath "$(env cmd.exe /c echo %USERPROFILE%)")
 winuserdir=$(printf %q "${winuserdir%$'\r'}")
 bash -c "echo \"\$wsl2ip2winhosts\" > $winuserdir/wsl2ip2winhosts.ps1"
 bash -c "chmod 0777 $winuserdir/wsl2ip2winhosts.ps1"
