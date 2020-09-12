@@ -41,7 +41,10 @@ grep $WSLIP $winhostsfile > /dev/null 2>&1
 # if it's in there grep returns 0, if not it's 1
 if [[ $? -eq 1 ]]
 then
-	$PS.exe -Command 'start-process -verb runas '$PS' -ArgumentList "-Command &{$HOME\wsl2ip2winhosts.ps1 '$WSLIP'}"'
+	winuserhomedir=$($PS.exe -Command 'echo $env:USERPROFILE')
+	runscript="${winuserhomedir%$'\r'}"\\wsl2ip2winhosts.ps1
+	$PS.exe -Command "start-process -verb runas $PS -ArgumentList \"-Command &{'$runscript $WSLIP'}\""
+	#$PS.exe -Command 'start-process -verb runas '$PS' -ArgumentList "-Command &{$HOME\wsl2ip2winhosts.ps1 '$WSLIP'}"'
 fi
 
 # set this to 1 to start httpd on WSL start or 0 to skip
