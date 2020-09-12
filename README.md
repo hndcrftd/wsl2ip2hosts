@@ -1,7 +1,5 @@
 # wsl2ip2hosts
 
-**Note: This was initially made for Centos where you login as root and I am making adjustments so it would also run under Ubuntu where you don't login as root and need to run the script as sudo. At the moment I'm reworking sudoers part with environment export, making sure the script can find powershell executables when run under sudo**
-
 WSL2 assigns different IPs to itself and the Windows host system every time it (re)starts.
 
 **This solution automatically updates WSL2 IP in the Windows C:\Windows\system32\drivers\etc\hosts on WSL start.**
@@ -27,7 +25,9 @@ You can (and should) look at the content of the install.sh script either on gith
 At the end of installation the scripts will be attempted to run and you may see the changes in your hosts files immediately.  
 If you are not logged in as root (as in Ubuntu, or other scenarios) you will need to log out and log back in to your distro, at which point the scripts should run. This is because the sudoers file needs to be reloaded.  
 Once installed, the settings persist and to change them you can either re-run the install script or edit the generated scripts manually.  
-You can have separate settings per distro.
+As of this time you **cannot** have separate settings per distro as distros reuse the same WSL IP so make sure same services in different distros don't listen on same ports. This only affects people who run two or more distros concurrently. Perhaps in the future Microsoft can fix that.
+
+**Note: At the moment this works if your user's home folder does not contain spaces. While I'm researching workarounds, if your home folder does contain spaces you can move the wsl2ip2winhosts.ps1 script from your home folder some place else and edit line 44 in ips2hosts.sh to indicate the full path of the script in place of $HOME variable. If you have any suggestions, let me know.**
 
 You will have two new commands (aliases) in your distro bash for convenience:  
 - `wslip` - shows your WSL current IP address  
