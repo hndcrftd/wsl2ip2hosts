@@ -36,10 +36,10 @@ fi
 homefolderscript="$(echo ~)/ips2hosts.sh"
 echo "$ips2hosts" > "$homefolderscript"
 chmod 0777 "$homefolderscript"
-echo "sudo $homefolderscript" > /etc/profile.d/runips2hosts.sh
+echo "sudo -E $homefolderscript" > /etc/profile.d/runips2hosts.sh
 chmod +x /etc/profile.d/runips2hosts.sh
 #add sudo permissions for script ~/ips2hosts.sh to /etc/sudoers.d folder in a file ips2hosts
-printf "ALL\tALL=(root) NOPASSWD: $homefolderscript\n" > /etc/sudoers.d/ips2hosts
+printf "ALL\tALL=(root) NOPASSWD:SETENV: $homefolderscript\n" > /etc/sudoers.d/ips2hosts
 chown root:root /etc/sudoers.d/ips2hosts
 chmod 0440 /etc/sudoers.d/ips2hosts
 grep '#includedir /etc/sudoers.d' /etc/sudoers > /dev/null 2>&1 || sudo sh -c "echo \"#includedir /etc/sudoers.d\" >> /etc/sudoers"
@@ -58,7 +58,9 @@ wsl2ip2winhosts=${wsl2ip2winhosts/wslfqdn.local/$wslhost}
 #The complexity below is to account for cases where user's home folder has spaces
 #type pwsh.exe > /dev/null 2>&1 && PS="pwsh" || PS="powershell"
 pwshll=$(which pwsh.exe || which powershell.exe)
-winuserdir=$(wslpath "$(\"$pwshll\" -Command 'echo $env:USERPROFILE')")
+psl="${pwshll##*/}"
+winuserdir=$("$pwshll" -Command 'echo $env:USERPROFILE')
+winuserdir=$(wslpath "$winuserdir")
 winuserdir=$(printf %q "${winuserdir%$'\r'}")
 bash -c "echo \"\$wsl2ip2winhosts\" > $winuserdir/wsl2ip2winhosts.ps1"
 bash -c "chmod 0777 $winuserdir/wsl2ip2winhosts.ps1"
