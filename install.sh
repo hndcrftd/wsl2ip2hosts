@@ -62,7 +62,9 @@ psl="${pwshll##*/}"
 winuserdir=$("$pwshll" -Command 'echo $env:USERPROFILE')
 winuserdir=$(wslpath "$winuserdir")
 winuserdir=$(printf %q "${winuserdir%$'\r'}")
-bash -c "echo \"\$wsl2ip2winhosts\" > $winuserdir/wsl2ip2winhosts.ps1"
+echo "$wsl2ip2winhosts" > ~/wsl2ip2winhosts.ps1
+# move to user's home folder because PowerShell will not execute scripts from network locations
+bash -c "mv -f ~/wsl2ip2winhosts.ps1 > $winuserdir/wsl2ip2winhosts.ps1"
 bash -c "chmod 0777 $winuserdir/wsl2ip2winhosts.ps1"
 
 echo "Populating IPs, this will take a few seconds..."
