@@ -1,5 +1,7 @@
 # wsl2ip2hosts
 
+**Note: This was initially made for Centos where you login as root and I tried making adjustments so it would also run under Ubuntu where you don't login as root and need to run the script as sudo. At the moment the issue is - neither cmd.exe not pwsh.exe can be found by Ubuntu when invoked under sudo. Without sudo (if you login to your distro as root) things work great. I'm still researching solutions. Feel free to suggest yours.**
+
 WSL2 assigns different IPs to itself and the Windows host system every time it (re)starts.
 
 **This solution automatically updates WSL2 IP in the Windows C:\Windows\system32\drivers\etc\hosts on WSL start.**
@@ -9,8 +11,6 @@ Optionally it updates its own /etc/hosts with the Windows IP.
 Optionally it starts httpd (and creates /run/httpd which gets cleared on every shutdown) so you can get right to development without having to start services manually. (I needed this for WSL2 Centos7 box. You may not need it, or you may want to execute different services, like apache2, so feel free to modify that script for your needs after installation.)
 
 The install script places the batch files on your system and asks you for hostnames, as well as other configuration details.
-
-**Note: This was initially made for Centos where you login as root and I made adjustments so it would also run under Ubuntu where you don't login as root and need to run the script as sudo. Please try it in your distro and report issues if any.**
 
 ### TL;DR:
 
