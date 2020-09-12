@@ -1,6 +1,6 @@
 # wsl2ip2hosts
 
-**Note: This was initially made for Centos where you login as root and I tried making adjustments so it would also run under Ubuntu where you don't login as root and need to run the script as sudo. At the moment the issue is - neither cmd.exe not pwsh.exe can be found by Ubuntu when invoked under sudo. Without sudo (if you login to your distro as root) things work great. I'm still researching solutions. Feel free to suggest yours.**
+**Note: This was initially made for Centos where you login as root and I am making adjustments so it would also run under Ubuntu where you don't login as root and need to run the script as sudo. At the moment I'm reworking sudoers part with environment export, making sure the script can find powershell executables when run under sudo**
 
 WSL2 assigns different IPs to itself and the Windows host system every time it (re)starts.
 
@@ -19,7 +19,7 @@ To install the scripts automatically, copy and run the following commands in you
 cd ~;\
 curl -s https://raw.githubusercontent.com/hndcrftd/wsl2ip2hosts/master/install.sh > wsl2ip2hosts.install.sh;\
 chmod +x wsl2ip2hosts.install.sh;\
-sudo ./wsl2ip2hosts.install.sh
+sudo PATH="$PATH" ./wsl2ip2hosts.install.sh
 ```
 Yes, you can copy and paste the whole block at once.  
 The script will walk you through the installation, i.e. setting up optional actions and selecting which hostnames you want to assign to WSL and Windows.  
